@@ -1,0 +1,46 @@
+---
+title: "week_5_code_along"
+author: "Leonardo Feitosa"
+date: "09/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(palmerpenguins)
+library(effsize)
+library(car)
+library(ggbeeswarm)
+library(broom)
+```
+
+# Part 1. T tests
+
+Mass comparison: male and female chinstrap penguins
+
+```{r}
+chinstrap <- penguins %>% 
+  filter(species == "Chinstrap")
+
+# Histograms
+
+ggplot(chinstrap, aes(x = body_mass_g)) +
+  geom_histogram(bins = 10) +
+  facet_wrap(~ sex)
+
+## QQ plot to check out normality
+ggplot(chinstrap, aes(sample = body_mass_g)) +
+  geom_qq() +
+  facet_wrap(~ sex)
+
+## Descriptive statistics
+chinstrap %>% 
+  group_by(sex) %>% 
+  summarise(mean_mass = mean(body_mass_g),
+            median_mass = median(body_mass_g),
+            sd_mass = sd(body_mass_g),
+            sample_size = n())
+
+```
+
